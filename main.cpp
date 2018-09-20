@@ -1,4 +1,6 @@
 #include <iostream>
+#include <time.h>
+#include <conio.h>
 
 using namespace std;
 enum eDir{STOP = 0, LEFT = 1, UPLEFT = 2, DOWNLEFT = 3,
@@ -94,6 +96,23 @@ public:
     return o;
   }
 };
+
+class cGameManager{
+private:
+  int width, height;
+  int score1, score2;
+  char up1, down1, up2, down2;
+  bool quit;
+  cball *ball;
+  cPaddle *player1;
+  cPaddle *player2;
+  width = w, height h;
+  ball = new cBall(w/2, h/2);
+  player1 = new cPaddle(1, h/2 - 3);
+  player2 = new cPaddle(w-2, h/2 -3);
+public:
+
+}
 
 
 int main(){
