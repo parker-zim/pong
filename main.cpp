@@ -85,7 +85,7 @@ public:
     x = posX;
     y = posY;
   }
-  inline void Reset() { x = originalX; y = originalY;}
+  inline void reset() { x = originalX; y = originalY;}
   inline int getX() {return x;}
   inline int getY() {return y;}
   inline void moveUp() {y--;}
@@ -103,18 +103,18 @@ private:
   int score1, score2;
   char up1, down1, up2, down2;
   bool quit;
-  cball *ball;
-  cPaddle *player1;
-  cPaddle *player2;
+  cBall * ball;
+  cPaddle * player1;
+  cPaddle * player2;
 
 public:
   cGameManager(int w, int h){
-    srand(time(null));
+    srand(time(0));
     quit = false;
     up1 = 'w'; up2 = 'o';
     down1 = 's'; down2 = 'l';
     score1 = score2 = 0;
-    width = w, height h;
+    width = w; height = h;
     ball = new cBall(w/2, h/2);
     player1 = new cPaddle(1, h/2 - 3);
     player2 = new cPaddle(w-2, h/2 -3);
@@ -130,8 +130,50 @@ public:
       score2++;
     }
     ball->reset();
-    player1-reset();
+    player1->reset();
     player2->reset();
+  }
+
+  void Draw(){
+    system("cls");
+    for (int i = 0; i< width + 2; i++){
+      cout << "\xB2";
+    }
+    cout << endl;
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width + 1; j++) {
+        int ballX = ball->getX();
+        int ballY = ball->getY();
+        int player1X = player1->getX();
+        int player2X = player2->getX();
+        int player1Y = player1->getY();
+        int player2Y = player2->getY();
+
+        if (j == 0 || j == width)
+          cout << "\xB2";
+
+        //ball
+        if (ballX == j && ballY == i)
+          cout << "O";
+        //player 1
+        else if (player1X == j && (player1Y == i || player1Y + 1 == i ||
+                                    player1Y + 2 == i || player1Y + 3 == i))
+          cout << "\xB2";
+          //player 1
+        else if (player2X == j && (player2Y == i || player2Y + 1 == i ||
+                                    player2Y + 2 == i || player2Y + 3 == i))
+          cout << "\xB2";
+        else
+          cout << " ";
+      }
+      cout << endl;
+    }
+    for (int i = 0; i < width + 2; i ++)
+      cout << "\xB2";
+    cout << endl;
+
+    cout << "P1 Score: " << score1 << endl << "P2 Score: " << score2 << endl;
   }
 
   void Input(){
@@ -141,8 +183,8 @@ public:
     int ballY = ball->getY();
     int player1X = player1->getX();
     int player2X = player2->getX();
-    int player1Y = player1->getX();
-    int player2Y = -layer2->getX();
+    int player1Y = player1->getY();
+    int player2Y = player2->getY();
 
     if (_kbhit()){
       char curr = _getch();
@@ -160,7 +202,7 @@ public:
       }
       if (curr == down2) {
         if (player2Y + 4 < height)
-          player2->moveDown()
+          player2->moveDown();
       }
       if (curr == 'q' || curr == 'p'){
         quit = true;
@@ -172,7 +214,7 @@ public:
 
   }
 
-  void Run(){
+  void run(){
     while (!quit){
       Draw();
       Input();
@@ -181,15 +223,17 @@ public:
   }
 };
 int main(){
-
-  cBall c(0,0);
-  cout <<c << endl;
-  c.randomDir();
-  cout << c << endl;
-  c.move();
-  cout << c << endl;
-  c.randomDir();
-  c.move();
-  cout << c << endl;
+  cGameManager c(40,20);
+  c.run();
   return 0;
+  // cBall c(0,0);
+  // cout <<c << endl;
+  // c.randomDir();
+  // cout << c << endl;
+  // c.move();
+  // cout << c << endl;
+  // c.randomDir();
+  // c.move();
+  // cout << c << endl;
+  // return 0;
 }
