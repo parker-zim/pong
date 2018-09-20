@@ -211,7 +211,29 @@ public:
   }
 
   void Logic(){
+    int ballX = ball->getX();
+    int ballY = ball->getY();
+    int player1X = player1->getX();
+    int player2X = player2->getX();
+    int player1Y = player1->getY();
+    int player2Y = player2->getY();
 
+    //left paddle
+    for (int i = 0; i < 4; i++)
+      if (ballX == player1X + 1)
+        if (ballX == player1X + i)
+          ball -> changeDirection((eDir)((rand()%3) + 4));
+
+    //left paddle
+    for (int i = 0; i < 4; i++)
+      if (ballY == player1Y + 1)
+        if (ballY == player1Y + i)
+          ball -> changeDirection((eDir)((rand()%3) + 1));
+
+    //bottom wall
+    if (ballY == height - 1)
+      ball -> changeDirection(ball->getDirection() == DOWNRIGHT ? UPRIGHT : UPLEFT);
+      
   }
 
   void run(){
