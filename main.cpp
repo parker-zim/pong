@@ -106,15 +106,80 @@ private:
   cball *ball;
   cPaddle *player1;
   cPaddle *player2;
-  width = w, height h;
-  ball = new cBall(w/2, h/2);
-  player1 = new cPaddle(1, h/2 - 3);
-  player2 = new cPaddle(w-2, h/2 -3);
+
 public:
+  cGameManager(int w, int h){
+    srand(time(null));
+    quit = false;
+    up1 = 'w'; up2 = 'o';
+    down1 = 's'; down2 = 'l';
+    score1 = score2 = 0;
+    width = w, height h;
+    ball = new cBall(w/2, h/2);
+    player1 = new cPaddle(1, h/2 - 3);
+    player2 = new cPaddle(w-2, h/2 -3);
+  }
+  ~cGameManager(){
+    delete ball, player1, player2;
+  }
+  void scored(cPaddle *player){
+    if (player == player1){
+      score1++;
+    }
+    else if (player == player2){
+      score2++;
+    }
+    ball->reset();
+    player1-reset();
+    player2->reset();
+  }
 
-}
+  void Input(){
+    ball->move();
 
+    int ballX = ball->getX();
+    int ballY = ball->getY();
+    int player1X = player1->getX();
+    int player2X = player2->getX();
+    int player1Y = player1->getX();
+    int player2Y = -layer2->getX();
 
+    if (_kbhit()){
+      char curr = _getch();
+      if (curr == up1){
+        if(player1Y > 0)
+          player1->moveUp();
+      }
+      if (curr == up2){
+        if (player2Y > 0)
+          player2->moveUp();
+      }
+      if (curr == down1) {
+        if(player1Y + 4 < height)
+          player1->moveDown();
+      }
+      if (curr == down2) {
+        if (player2Y + 4 < height)
+          player2->moveDown()
+      }
+      if (curr == 'q' || curr == 'p'){
+        quit = true;
+      }
+    }
+  }
+
+  void Logic(){
+
+  }
+
+  void Run(){
+    while (!quit){
+      Draw();
+      Input();
+      Logic();
+    }
+  }
+};
 int main(){
 
   cBall c(0,0);
