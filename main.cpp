@@ -20,7 +20,7 @@ public:
 
   void reset(){
     x = originalX, y = originalY;
-    direction = stop;
+    direction = STOP;
   }
   void changeDirection(eDir d){
     direction = d;
@@ -28,9 +28,9 @@ public:
   void randomDir(){
     direction = (eDir) (rand()% 6 +1);
   }
-  inline int getX() {return x};
-  inline int getY() {return y};
-  inline eDir getDirection() {retrun direction};
+  inline int getX() {return x;}
+  inline int getY() {return y;}
+  inline eDir getDirection() {return direction;}
   void move(){
     switch(direction){
       case STOP:
@@ -61,10 +61,24 @@ public:
         break;
     }
   }
-}
+
+  friend ostream & operator << (ostream & o, cBall c){
+    o << "Ball [" << c.x << "," << c.y <<"][" << c.direction << "]";
+    return o;
+  }
+};
 
 
 int main(){
 
+  cBall c(0,0);
+  cout <<c << endl;
+  c.randomDir();
+  cout << c << endl;
+  c.move();
+  cout << c << endl;
+  c.randomDir();
+  c.move();
+  cout << c << endl;
   return 0;
 }
